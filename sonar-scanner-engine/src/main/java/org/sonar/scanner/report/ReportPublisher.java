@@ -185,7 +185,7 @@ public class ReportPublisher implements Startable {
         post.setParam(CHARACTERISTIC, "branch=" + branchName);
         post.setParam(CHARACTERISTIC, "branchType=" + branchConfiguration.branchType().name());
       } else {
-        post.setParam(CHARACTERISTIC, "pullRequest=" + branchConfiguration.pullRequestId());
+        post.setParam(CHARACTERISTIC, "pullRequest=" + branchConfiguration.pullRequestKey());
       }
     }
 

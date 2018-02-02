@@ -99,7 +99,7 @@ public class MetadataPublisher implements ReportPublisherStep {
         builder.setMergeBranchName(branchTarget);
       }
       if (branchType == BranchType.PULL_REQUEST) {
-        builder.setPullRequestId(branchConfiguration.pullRequestId());
+        builder.setPullRequestKey(branchConfiguration.pullRequestKey());
       }
     }
     Optional.ofNullable(rootProject.getBranch()).ifPresent(builder::setDeprecatedBranch);

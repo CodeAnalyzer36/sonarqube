@@ -423,7 +423,7 @@ public class ScannerMediumTester extends ExternalResource {
     }
 
     @Override
-    public String pullRequestId() {
+    public String pullRequestKey() {
       throw new UnsupportedOperationException();
     }
   }
