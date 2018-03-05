@@ -17,18 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+import * as React from 'react';
 import { shallow } from 'enzyme';
-import React from 'react';
-import IssueMessage from '../IssueMessage';
+import WorkspaceComponentTitle from '../WorkspaceComponentTitle';
 
-it('should render with the message and a link to open the rule', () => {
-  const element = shallow(
-    <IssueMessage
-      rule="javascript:S1067"
-      message="Reduce the number of conditional operators (4) used in the expression"
-      organization="myorg"
-    />,
-    { context: { workspace: {} } }
-  );
-  expect(element).toMatchSnapshot();
+it('should render component', () => {
+  // TODO use BranchLike
+  const component = { branch: undefined, key: 'foo' };
+  expect(shallow(<WorkspaceComponentTitle component={component} />)).toMatchSnapshot();
+});
+
+it('should render loaded component', () => {
+  // TODO use BranchLike
+  const component = { branch: undefined, key: 'foo', name: 'src/foo.js', qualifier: 'FIL' };
+  expect(shallow(<WorkspaceComponentTitle component={component} />)).toMatchSnapshot();
 });

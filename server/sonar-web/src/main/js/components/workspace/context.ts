@@ -17,17 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Marionette from 'backbone.marionette';
-import ItemView from './item-view';
-import Template from '../templates/workspace-items.hbs';
+export interface ComponentDescriptor {
+  // TODO use branchLike
+  branch: string | undefined;
+  key: string;
+  line?: number;
+  name?: string;
+  qualifier?: string;
+}
 
-export default Marionette.CompositeView.extend({
-  className: 'workspace-nav',
-  template: Template,
-  childViewContainer: '.workspace-nav-list',
-  childView: ItemView,
+export interface RuleDescriptor {
+  key: string;
+  name?: string;
+  organization: string;
+}
 
-  childViewOptions() {
-    return { collectionView: this };
-  }
-});
+export interface WorkspaceContext {
+  openComponent: (component: ComponentDescriptor) => void;
+  openRule: (rule: RuleDescriptor) => void;
+}

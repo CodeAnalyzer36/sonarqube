@@ -19,10 +19,12 @@
  */
 import * as React from 'react';
 import { groupBy } from 'lodash';
+import * as PropTypes from 'prop-types';
 import { getTests } from '../../../api/components';
 import { SourceLine, TestCase } from '../../../app/types';
 import BubblePopup from '../../common/BubblePopup';
 import TestStatusIcon from '../../shared/TestStatusIcon';
+import { WorkspaceContext } from '../../workspace/context';
 import { translate } from '../../../helpers/l10n';
 import { collapsePath } from '../../../helpers/path';
 
@@ -40,7 +42,14 @@ interface State {
 }
 
 export default class CoveragePopup extends React.PureComponent<Props, State> {
+  // prettier-ignore
+  context!: { workspace: WorkspaceContext };
   mounted = false;
+
+  static contextTypes = {
+    workspace: PropTypes.object.isRequired
+  };
+
   state: State = { loading: true, testCases: [] };
 
   componentDidMount() {
@@ -83,8 +92,9 @@ export default class CoveragePopup extends React.PureComponent<Props, State> {
     event.preventDefault();
     event.currentTarget.blur();
     const { key } = event.currentTarget.dataset;
-    const Workspace = require('../../workspace/main').default;
-    Workspace.openComponent({ key, branch: this.props.branch });
+    if (key) {
+      this.context.workspace.openComponent({ branch: this.props.branch, key });
+    }
     this.props.onClose();
   };
 

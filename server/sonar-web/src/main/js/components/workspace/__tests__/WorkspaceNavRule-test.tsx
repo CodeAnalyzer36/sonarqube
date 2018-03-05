@@ -17,41 +17,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Marionette from 'backbone.marionette';
-import Template from '../templates/workspace-item.hbs';
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import WorkspaceNavRule, { Props } from '../WorkspaceNavRule';
+import { click } from '../../../helpers/testUtils';
 
-export default Marionette.ItemView.extend({
-  tagName: 'li',
-  className: 'workspace-nav-item',
-  template: Template,
-
-  modelEvents: {
-    change: 'render',
-    showViewer: 'onViewerShow',
-    hideViewer: 'onViewerHide'
-  },
-
-  events: {
-    click: 'onClick',
-    'click .js-close': 'onCloseClick'
-  },
-
-  onClick(e) {
-    e.preventDefault();
-    this.options.collectionView.trigger('click', this.model);
-  },
-
-  onCloseClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.model.destroy();
-  },
-
-  onViewerShow() {
-    this.$el.addClass('hidden');
-  },
-
-  onViewerHide() {
-    this.$el.removeClass('hidden');
-  }
+it('should render', () => {
+  expect(shallowRender()).toMatchSnapshot();
 });
+
+it('should close', () => {
+  const onClose = jest.fn();
+  const wrapper = shallowRender({ onClose });
+  click(wrapper.find('ButtonIcon'));
+  expect(onClose).toBeCalledWith('foo');
+});
+
+it('should open', () => {
+  const onOpen = jest.fn();
+  const wrapper = shallowRender({ onOpen });
+  click(wrapper.find('.workspace-nav-item-link'));
+  expect(onOpen).toBeCalledWith('foo');
+});
+
+function shallowRender(props?: Partial<Props>) {
+  const rule = { key: 'foo', organization: 'org' };
+  return shallow(
+    <WorkspaceNavRule onClose={jest.fn()} onOpen={jest.fn()} rule={rule} {...props} />
+  );
+}

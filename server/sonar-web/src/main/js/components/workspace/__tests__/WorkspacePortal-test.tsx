@@ -17,38 +17,13 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Marionette from 'backbone.marionette';
-import HeaderView from './viewer-header-view';
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import WorkspacePortal from '../WorkspacePortal';
 
-export default Marionette.LayoutView.extend({
-  className: 'workspace-viewer',
-
-  modelEvents: {
-    destroy: 'destroy'
-  },
-
-  regions: {
-    headerRegion: '.workspace-viewer-header',
-    viewerRegion: '.workspace-viewer-container'
-  },
-
-  onRender() {
-    this.showHeader();
-    this.$('.workspace-viewer-container').isolatedScroll();
-  },
-
-  onViewerMinimize() {
-    this.trigger('viewerMinimize');
-  },
-
-  onViewerClose() {
-    this.trigger('viewerClose', this.model);
-  },
-
-  showHeader() {
-    const headerView = new HeaderView({ model: this.model });
-    this.listenTo(headerView, 'viewerMinimize', this.onViewerMinimize);
-    this.listenTo(headerView, 'viewerClose', this.onViewerClose);
-    this.headerRegion.show(headerView);
-  }
+it('should create portal element', () => {
+  const wrapper = shallow(<WorkspacePortal />);
+  const { el } = wrapper.instance() as WorkspacePortal;
+  expect(el.tagName.toLowerCase()).toBe('div');
+  expect(el.className).toBe('workspace');
 });

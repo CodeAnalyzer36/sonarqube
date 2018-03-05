@@ -17,31 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import Backbone from 'backbone';
+import * as React from 'react';
+import { createPortal } from 'react-dom';
 
-export default Backbone.Model.extend({
-  validate() {
-    if (!this.has('__type__')) {
-      return 'type is missing';
-    }
-    if (this.get('__type__') === 'component' && !this.has('key')) {
-      return 'key is missing';
-    }
-    if (this.get('__type__') === 'rule' && !this.has('key')) {
-      return 'key is missing';
-    }
-  },
+interface Props {}
 
-  isComponent() {
-    return this.get('__type__') === 'component';
-  },
+export default class WorkspacePortal extends React.PureComponent<Props> {
+  el: HTMLElement;
 
-  isRule() {
-    return this.get('__type__') === 'rule';
-  },
-
-  destroy(options) {
-    this.stopListening();
-    this.trigger('destroy', this, this.collection, options);
+  constructor(props: Props) {
+    super(props);
+    this.el = document.createElement('div');
+    this.el.classList.add('workspace');
   }
-});
+
+  componentDidMount() {
+    document.body.appendChild(this.el);
+  }
+
+  componentWillUnmount() {
+    document.body.removeChild(this.el);
+  }
+
+  render() {
+    return createPortal(this.props.children, this.el);
+  }
+}

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render loaded rule 1`] = `
+<React.Fragment>
+  <i
+    className="icon-workspace-doc little-spacer-right"
+  />
+  <span
+    className="text-limited"
+  >
+    Foo
+  </span>
+</React.Fragment>
+`;
+
+exports[`should render rule 1`] = `
+<React.Fragment>
+  <i
+    className="icon-workspace-doc little-spacer-right"
+  />
+  <span
+    className="text-limited"
+  >
+    —
+  </span>
+</React.Fragment>
+`;

@@ -19,6 +19,7 @@
  */
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import { translate } from '../../../helpers/l10n';
 
 export default class IssueMessage extends React.PureComponent {
@@ -27,13 +28,16 @@ export default class IssueMessage extends React.PureComponent {
     rule: string,
     organization: string
   };
-*/
+  */
+
+  static contextTypes = {
+    workspace: PropTypes.object.isRequired
+  };
 
   handleClick = (e /*: MouseEvent */) => {
     e.preventDefault();
     e.stopPropagation();
-    const Workspace = require('../../workspace/main').default;
-    Workspace.openRule({
+    this.context.workspace.openRule({
       key: this.props.rule,
       organization: this.props.organization
     });
