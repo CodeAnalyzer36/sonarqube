@@ -109,7 +109,7 @@ public class LoadReportAnalysisMetadataHolderStep implements ComputationStep {
     if (dto.getMainBranchProjectUuid() != null) {
       throw MessageException.of("Project should not reference a branch");
     }
-    analysisMetadata.setProject(new Project(dto.uuid(), dto.getDbKey(), dto.name()));
+    analysisMetadata.setProject(new Project(dto.uuid(), dto.getDbKey(), dto.name(), dto.description()));
   }
 
   private Organization loadOrganization(ScannerReport.Metadata reportMetadata) {
