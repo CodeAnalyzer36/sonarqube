@@ -177,6 +177,17 @@ public class RuleActivator {
    * On custom rules, it's always rule parameters that are used
    */
   private void applySeverityAndParamToChange(RuleActivation request, RuleActivatorContext context, ActiveRuleChange change) {
+    if (context.getRulesProfile().isBuiltIn()) {
+      // SONAR-10473: The built-in quality profile *must* always be updated
+      change.setSeverity(firstNonNull(request.getSeverity(), context.defaultSeverity()));
+      for (RuleParamDto ruleParamDto : context.ruleParams()) {
+        String paramKey = ruleParamDto.getName();
+        String paramValue = firstNonNull(context.requestParamValue(request, paramKey), context.defaultParamValue(paramKey));
+        change.setParameter(paramKey, validateParam(ruleParamDto, paramValue));
+      }
+      return;
+    }
+
     if (request.isReset()) {
       // load severity and params from parent profile, else from default values
       change.setSeverity(firstNonNull(

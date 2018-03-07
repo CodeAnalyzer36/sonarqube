@@ -983,6 +983,25 @@ public class RuleActivatorTest {
     assertThatRuleIsActivated(grandchildProfile, rule, changes, rule.getSeverityString(), INHERITED, emptyMap());
   }
 
+  // SONAR-
+  @Test
+  public void activate_on_builtin_profile__always_change_severity() {
+    RuleDefinitionDto rule = db.rules().insert(r -> r.setSeverity(Severity.MAJOR).setLanguage("java"));
+    QProfileDto profile = db.qualityProfiles().insert(db.getDefaultOrganization(),
+      p -> p.setLanguage(rule.getLanguage())
+        .setIsBuiltIn(true));
+
+    List<ActiveRuleChange> changes = underTest.activate(db.getSession(), RuleActivation.create(rule.getKey()), profile);
+
+    assertThatRuleIsActivated(profile, rule, changes, "MAJOR", null, emptyMap());
+
+    rule.setSeverity(Severity.MINOR);
+    db.rules().update(rule);
+
+    underTest.activate(db.getSession(), RuleActivation.create(rule.getKey()), profile);
+    assertThatRuleIsUpdated(profile, rule, "MINOR", null, emptyMap());
+  }
+
   @Test
   public void deactivateOnBuiltInProfile_throws_IAE_when_profile_is_not_built_in() {
     RuleDefinitionDto rule = createJavaRule();
