@@ -181,21 +181,6 @@ public class LoadReportAnalysisMetadataHolderStep implements ComputationStep {
     }
   }
 
-  private void checkProjectKeyConsistency(String reportProjectKey) {
-    String componentKey = ceTask.getComponentKey();
-    if (componentKey == null) {
-      throw MessageException.of(format(
-        "Compute Engine task component key is null. Project with UUID %s must have been deleted since report was uploaded. Can not proceed.",
-        ceTask.getComponentUuid()));
-    }
-    if (!componentKey.equals(reportProjectKey)) {
-      throw MessageException.of(format(
-        "ProjectKey in report (%s) is not consistent with projectKey under which the report as been submitted (%s)",
-        reportProjectKey,
-        componentKey));
-    }
-  }
-
   private void checkOrganizationKeyConsistency(ScannerReport.Metadata reportMetadata, Organization organization) {
     String organizationKey = reportMetadata.getOrganizationKey();
     String resolveReportOrganizationKey = resolveReportOrganizationKey(organizationKey);
