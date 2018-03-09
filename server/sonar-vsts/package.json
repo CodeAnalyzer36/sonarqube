@@ -1,0 +1,134 @@
+{
+  "name": "SonarQube-VSTS",
+  "version": "0.0.1",
+  "description": "Quality Widget for VSTS",
+  "repository": "SonarSource/sonarqube",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "babel-polyfill": "6.26.0",
+    "classnames": "2.2.5",
+    "lodash": "4.17.4",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "whatwg-fetch": "2.0.3"
+  },
+  "devDependencies": {
+    "@types/classnames": "2.2.3",
+    "@types/enzyme": "3.1.9",
+    "@types/jest": "22.2.0",
+    "@types/lodash": "4.14.104",
+    "@types/react": "16.0.40",
+    "@types/react-dom": "16.0.4",
+    "autoprefixer": "8.1.0",
+    "awesome-typescript-loader": "4.0.1",
+    "babel-core": "6.26.0",
+    "babel-jest": "22.4.1",
+    "babel-loader": "7.1.4",
+    "babel-plugin-dynamic-import-node": "1.2.0",
+    "babel-plugin-syntax-dynamic-import": "6.18.0",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-react-constant-elements": "6.23.0",
+    "babel-plugin-transform-react-jsx-self": "6.22.0",
+    "babel-plugin-transform-react-jsx-source": "6.22.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-react": "6.24.1",
+    "chalk": "2.3.2",
+    "copy-webpack-plugin": "4.5.1",
+    "css-loader": "0.28.10",
+    "enzyme": "3.3.0",
+    "enzyme-adapter-react-16": "1.1.1",
+    "enzyme-to-json": "3.3.1",
+    "eslint": "4.17.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "6.0.2",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-react": "7.6.1",
+    "flow-bin": "^0.52.0",
+    "fs-extra": "0.30.0",
+    "handlebars-loader": "1.6.0",
+    "html-webpack-plugin": "2.30.1",
+    "jest": "22.0.6",
+    "lint-staged": "4.3.0",
+    "postcss-calc": "6.0.1",
+    "postcss-custom-properties": "7.0.0",
+    "postcss-loader": "2.1.1",
+    "prettier": "1.10.2",
+    "react-error-overlay": "1.0.7",
+    "react-test-renderer": "16.2.0",
+    "rimraf": "2.6.2",
+    "style-loader": "0.20.3",
+    "ts-jest": "22.4.1",
+    "typescript": "2.7.1",
+    "typescript-eslint-parser": "13.0.0",
+    "webpack": "3.8.1",
+    "webpack-bundle-analyzer": "2.9.0",
+    "webpack-dev-server": "2.9.3"
+  },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "build-fast": "node scripts/build.js --fast",
+    "test": "node scripts/test.js",
+    "coverage": "npm test -- --coverage",
+    "format": "prettier --write --list-different 'src/main/js/!(libs)/**/*.{js,ts,tsx,css}'",
+    "lint": "eslint --ext js,ts,tsx --quiet src/main/js",
+    "ts-check": "tsc --noEmit",
+    "validate": "yarn lint && yarn ts-check && NODE_ENV=test jest",
+    "precommit": "yarn ts-check && lint-staged"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "browserslist": [
+    "last 3 Chrome versions",
+    "last 3 Firefox versions",
+    "last 3 Safari versions",
+    "last 3 Edge versions",
+    "IE 11"
+  ],
+  "jest": {
+    "coverageDirectory": "<rootDir>/target/coverage",
+    "coveragePathIgnorePatterns": ["<rootDir>/node_modules", "<rootDir>/tests"],
+    "mapCoverage": true,
+    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
+    "moduleNameMapper": {
+      "^.+\\.(hbs|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/config/jest/FileStub.js",
+      "^.+\\.css$": "<rootDir>/config/jest/CSSStub.js"
+    },
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js",
+      "<rootDir>/config/jest/SetupTestEnvironment.js",
+      "<rootDir>/config/jest/SetupEnzyme.js"
+    ],
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules",
+      "<rootDir>/src/main/webapp",
+      "<rootDir>/scripts"
+    ],
+    "testRegex": "(/__tests__/.*|\\-test)\\.(ts|tsx|js)$",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    }
+  },
+  "prettier": {
+    "jsxBracketSameLine": true,
+    "printWidth": 100,
+    "singleQuote": true
+  },
+  "lint-staged": {
+    "gitDir": "../../",
+    "linters": {
+      "*.{css,json}": ["prettier --write", "git add"],
+      "*.{js,ts,tsx}": [
+        "eslint",
+        "jest --bail --passWithNoTests --findRelatedTests",
+        "prettier --write",
+        "git add"
+      ]
+    }
+  }
+}
